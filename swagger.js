@@ -12,15 +12,15 @@ const options = {
     components: {
       securitySchemes: {
         bearerAuth: {
-          type: 'http',
-          scheme: 'bearer',
-          bearerFormat: 'JWT', 
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
         },
       },
     },
     servers: [
       {
-        url: "http://localhost:8080", // Thay đổi dựa trên cấu hình của bạn
+        url: "https://backendmobile-kpk2.onrender.com", // Thay đổi dựa trên cấu hình của bạn
       },
     ],
   },
