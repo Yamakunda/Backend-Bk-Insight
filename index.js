@@ -7,9 +7,9 @@ const accountRouter = require("./routes/AccountRouter");
 const authRouter = require("./routes/AuthRouter");
 const router = require("./routes/UserRouter");
 const mongoose = require("mongoose");
-const swaggerSpecs = require('./swagger');
+const swaggerSpecs = require("./swagger");
 // const userController = require('/controllers/UserController');
-const { specs, swaggerUi } = require('./swagger');
+const { specs, swaggerUi } = require("./swagger");
 dotenv.config();
 
 const app = express();
@@ -26,13 +26,13 @@ mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Kiểm tra kết nối MongoDB
 const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Connected to MongoDB');
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+db.once("open", () => {
+  console.log("Connected to MongoDB");
 });
 
 // Sử dụng Swagger UI
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
 
 app.use("/api/auth", authRouter);
 // app.use("/api/account", accountRouter);
