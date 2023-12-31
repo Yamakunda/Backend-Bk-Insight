@@ -1,44 +1,50 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const bodyParser = require("body-parser");
-const http = require("http");
-const swaggerSetup = require("./swagger");
-const accountRouter = require("./routes/AccountRouter");
-const authRouter = require("./routes/AuthRouter");
-const router = require("./routes/UserRouter");
 const mongoose = require("mongoose");
-const swaggerSpecs = require("./swagger");
-// const userController = require('/controllers/UserController');
-const { specs, swaggerUi } = require("./swagger");
+const routes = require("./routes");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+
 dotenv.config();
 
 const app = express();
-const server = http.createServer(app);
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3001;
 const URI = process.env.mongo_URL;
 
+app.use(cors());
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:3000",
+//       "https://smarthome-iot-nhom13.netlify.app",
+//       "https://chic-semifreddo-387257.netlify.app",
+//       "https://transcendent-banoffee-f698fe.netlify.app",
+//     ],
+//     methods: ["GET", "POST", "PUT", "DELETE"],
+//     credentials: true, // cho phép sử dụng các header như Cookies, Authentication header...
+//     allowedHeaders: ["Content-Type", "Authorization", "token"],
+//     exposedHeaders: ["Content-Disposition"],
+//   })
+// );
+
 app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb" }));
 app.use(bodyParser.json());
+app.use(cookieParser());
 
-// Kết nối MongoDB
-mongoose.connect(URI, { useNewUrlParser: true, useUnifiedTopology: true });
+routes(app);
 
-// Kiểm tra kết nối MongoDB
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-db.once("open", () => {
-  console.log("Connected to MongoDB");
-});
-
-// Sử dụng Swagger UI
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));
-
-app.use("/api/auth", authRouter);
-// app.use("/api/account", accountRouter);
-
-// Thêm Swagger
-
-server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+mongoose
+  .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("Connected to DB");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("err", err);
+  });

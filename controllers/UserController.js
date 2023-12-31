@@ -3,11 +3,10 @@ const JwtService = require("../services/JwtService");
 
 const createUser = async (req, res) => {
   try {
-    const { fullname, username, email, password, confirmPassword, phone } =
-      req.body;
+    const { username, email, password } = req.body;
     const reg = /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
     const isCheckEmail = reg.test(email);
-    if (!fullname || !username || !email || !password || !confirmPassword) {
+    if (!username || !email || !password) {
       return res.status(400).json({
         message: "The field is not empty",
       });
@@ -15,13 +14,9 @@ const createUser = async (req, res) => {
       return res.status(400).json({
         message: "The input is email",
       });
-    } else if (password !== confirmPassword) {
-      return res.status(400).json({
-        message: "The password is equal confirmPassword",
-      });
     }
     const response = await UserService.createUser(req.body);
-    return res.status(400).json(response);
+    return res.status(200).json(response);
   } catch (e) {
     return res.status(500).json({
       status: "ERR",
@@ -125,7 +120,6 @@ const logoutUser = async (req, res) => {
     });
   }
 };
-
 
 module.exports = {
   createUser,
