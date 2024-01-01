@@ -13,22 +13,17 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const URI = process.env.mongo_URL;
 
-app.use(cors());
+// app.use(cors());
 
-// app.use(
-//   cors({
-//     origin: [
-//       "http://localhost:3000",
-//       "https://smarthome-iot-nhom13.netlify.app",
-//       "https://chic-semifreddo-387257.netlify.app",
-//       "https://transcendent-banoffee-f698fe.netlify.app",
-//     ],
-//     methods: ["GET", "POST", "PUT", "DELETE"],
-//     credentials: true, // cho phép sử dụng các header như Cookies, Authentication header...
-//     allowedHeaders: ["Content-Type", "Authorization", "token"],
-//     exposedHeaders: ["Content-Disposition"],
-//   })
-// );
+app.use(
+  cors({
+    origin: ["http://10.0.2.2:8081", "http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // cho phép sử dụng các header như Cookies, Authentication header...
+    allowedHeaders: ["Content-Type", "Authorization", "token"],
+    exposedHeaders: ["Content-Disposition"],
+  })
+);
 
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb" }));
