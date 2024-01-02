@@ -13,4 +13,18 @@ const sendEmail = async (req, res) => {
     });
   }
 };
-module.exports = { sendEmail };
+const checkCodeEmail = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const { messageEmail } = req.body;
+    const response = await EmailService.checkCodeEmail(userId, messageEmail);
+    return res.status(200).json(response);
+  } catch (e) {
+    console.error("Error in loginUser:", e);
+    return res.status(500).json({
+      status: "ERR",
+      message: "Internal Server Error",
+    });
+  }
+};
+module.exports = { sendEmail, checkCodeEmail };

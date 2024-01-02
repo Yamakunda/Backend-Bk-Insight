@@ -31,4 +31,34 @@ const sendEmail = async (email) => {
 
   return info;
 };
-module.exports = { sendEmail };
+const checkCodeEmail = (id, messageEmail) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const user = await User.findOne({
+        _id: id,
+      });
+      if (user === null) {
+        resolve({
+          status: "ERR",
+          message: "The user is not defined",
+        });
+      }
+      if (user.messageEmail === messageEmail) {
+        resolve({
+          status: "OK",
+          message: "SUCCESS: Message email matched",
+          data: user,
+        });
+      } else {
+        resolve({
+          status: "ERR",
+          message: "ERROR: Message email does not match",
+        });
+      }
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
+
+module.exports = { sendEmail, checkCodeEmail };

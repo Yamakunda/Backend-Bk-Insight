@@ -18,6 +18,7 @@ router.get(
 ); /*done*/
 router.post("/refresh-token", userController.refreshToken); /*done*/
 router.post("/log-out", userController.logoutUser); /*done*/
-router.post("/sendEmail", emailController.sendEmail);
+router.post("/sendEmail", emailController.sendEmail); /*done*/
+router.post("/checkcodeEmail/:id", emailController.checkCodeEmail);
 
 module.exports = router;
