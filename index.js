@@ -17,7 +17,11 @@ const URI = process.env.mongo_URL;
 
 app.use(
   cors({
-    origin: ["http://10.0.2.2:8081", "http://localhost:3000"],
+    origin: [
+      "http://10.0.2.2:8081",
+      "http://localhost:3000",
+      "http://10.0.2.2:19000",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true, // cho phép sử dụng các header như Cookies, Authentication header...
     allowedHeaders: ["Content-Type", "Authorization", "token"],
